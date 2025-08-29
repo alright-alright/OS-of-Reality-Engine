@@ -1,0 +1,125 @@
+{
+  "phase": "Statistical Bombardment",
+  "verdict": "FRAGILE",
+  "stats": {
+    "mean_advantage": -0.44119284968261374,
+    "std_advantage": 0.03525070356669832,
+    "median_advantage": -0.43916183083023275,
+    "min_advantage": -0.514326897278466,
+    "max_advantage": -0.3522980256559533,
+    "pass_rate": 0.0,
+    "confidence_interval_99": [
+      -0.5108008054404042,
+      -0.36078084584231873
+    ],
+    "confidence_interval_95": [
+      -0.502244693515101,
+      -0.37593315881382877
+    ],
+    "effect_size": -12.51585936706883,
+    "total_runs": 100,
+    "successful_runs": 100,
+    "failed_runs": 0
+  },
+  "duration_seconds": 11.948786973953247,
+  "trials_per_second": 8.369050366199229,
+  "checkpoints_saved": 2,
+  "configuration": {
+    "target_runs": 100,
+    "confidence_level": 0.99,
+    "min_advantage_threshold": 0.1,
+    "n_workers": 2
+  },
+  "raw_results": [
+    {
+      "seed": 43,
+      "mdl_advantage": -0.4721125796670477,
+      "unified_mdl": -2222222.4155763444,
+      "separate_mdl": -4209652.15305705,
+      "passed": "False",
+      "success": true,
+      "error": null
+    },
+    {
+      "seed": 42,
+      "mdl_advantage": -0.4991254294554976,
+      "unified_mdl": -2011853.096270468,
+      "separate_mdl": -4016680.451721428,
+      "passed": "False",
+      "success": true,
+      "error": null
+    },
+    {
+      "seed": 45,
+      "mdl_advantage": -0.47568561941385173,
+      "unified_mdl": -2173797.483851528,
+      "separate_mdl": -4145981.045611162,
+      "passed": "False",
+      "success": true,
+      "error": null
+    },
+    {
+      "seed": 44,
+      "mdl_advantage": -0.4132301035320913,
+      "unified_mdl": -2372801.7967357542,
+      "separate_mdl": -4043836.9640619867,
+      "passed": "False",
+      "success": true,
+      "error": null
+    },
+    {
+      "seed": 47,
+      "mdl_advantage": -0.44906942459493066,
+      "unified_mdl": -2215231.8943406343,
+      "separate_mdl": -4020891.1852675714,
+      "passed": "False",
+      "success": true,
+      "error": null
+    },
+    {
+      "seed": 46,
+      "mdl_advantage": -0.4330293033498465,
+      "unified_mdl": -2335369.835979052,
+      "separate_mdl": -4119030.930129499,
+      "passed": "False",
+      "success": true,
+      "error": null
+    },
+    {
+      "seed": 49,
+      "mdl_advantage": -0.44052264851902345,
+      "unified_mdl": -2296381.6354866177,
+      "separate_mdl": -4104512.2370153703,
+      "passed": "False",
+      "success": true,
+      "error": null
+    },
+    {
+      "seed": 48,
+      "mdl_advantage": -0.4182578847307491,
+      "unified_mdl": -2370156.568737721,
+      "separate_mdl": -4074239.266037544,
+      "passed": "False",
+      "success": true,
+      "error": null
+    },
+    {
+      "seed": 50,
+      "mdl_advantage": -0.4793205730145947,
+      "unified_mdl": -2070887.5054234806,
+      "separate_mdl": -3977279.2971932185,
+      "passed": "False",
+      "success": true,
+      "error": null
+    },
+    {
+      "seed": 51,
+      "mdl_advantage": -0.41746271738802376,
+      "unified_mdl": -2325870.0225037765,
+      "separate_mdl": -3992654.362095175,
+      "passed": "False",
+      "success": true,
+      "error": null
+    }
+  ]
+}

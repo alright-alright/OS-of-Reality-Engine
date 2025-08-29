@@ -12,3 +12,7 @@
 [2025-08-29 15:23:02] [INFO] [Phase2] Running control: pure_random_data
 [2025-08-29 15:23:02] [INFO] [Phase2]   pure_random_data: FAILED (expected: FAIL)
 [2025-08-29 15:23:02] [INFO] Checkpoint saved: phase2_controls_3_1756506182.pkl
+[2025-08-29 15:23:02] [INFO] Git commit successful: Checkpoint: phase2_controls iteration 3
+[2025-08-29 15:23:02] [INFO] [Phase2] Running control: white_noise
+[2025-08-29 15:23:03] [INFO] [Phase2]   white_noise: FAILED (expected: FAIL)
+[2025-08-29 15:23:03] [INFO] Checkpoint saved: phase2_controls_4_1756506183.pkl

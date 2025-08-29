@@ -1,0 +1,46 @@
+{
+  "protocol_passed": "True",
+  "tier_results": {
+    "T0": {
+      "passed": "True",
+      "mdl_advantage": 0.9510470713010285,
+      "unified_mdl": -3.9973905585824596,
+      "separate_mdl": -81.65784284662087,
+      "details": {
+        "unified_params": 3,
+        "separate_params": 9,
+        "domain_mdls": {
+          "biological": -27.219280948873624,
+          "geological": -27.219280948873624,
+          "cosmological": -27.219280948873624
+        },
+        "threshold_met": "True",
+        "advantage_pct": 95.10470713010285
+      }
+    },
+    "T1": {
+      "passed": false,
+      "note": "Not implemented yet"
+    },
+    "T2": {
+      "passed": false,
+      "note": "Not implemented yet"
+    },
+    "T3": {
+      "passed": false,
+      "note": "Not implemented yet"
+    }
+  },
+  "duration_seconds": 0.2019641399383545,
+  "domains_tested": [
+    "biological",
+    "geological",
+    "cosmological"
+  ],
+  "sequences_per_domain": {
+    "biological": 3,
+    "geological": 3,
+    "cosmological": 3
+  },
+  "verdict_summary": "UMST unified substrate compresses across domains 95.1% better than separate models"
+}

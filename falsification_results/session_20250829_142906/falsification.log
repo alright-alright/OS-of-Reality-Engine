@@ -32,3 +32,11 @@
 [2025-08-29 14:29:07] [INFO] [Phase2] Running control: amplitude_randomized
 [2025-08-29 14:29:08] [INFO] [Phase2]   amplitude_randomized: PASSED (expected: FAIL)
 [2025-08-29 14:29:08] [INFO] Checkpoint saved: phase2_controls_8_1756502948.pkl
+[2025-08-29 14:29:08] [INFO] Git commit successful: Checkpoint: phase2_controls iteration 8
+[2025-08-29 14:29:08] [INFO] [Phase2] ============================================================
+[2025-08-29 14:29:08] [INFO] [Phase2] PHASE 2 SUMMARY
+[2025-08-29 14:29:08] [INFO] [Phase2] Verdict: CONTAMINATED
+[2025-08-29 14:29:08] [INFO] [Phase2] Controls passed: 8/8 (should be 0)
+[2025-08-29 14:29:08] [INFO] [Phase2] Duration: 2.0s
+[2025-08-29 14:29:08] [INFO] [Phase2] ============================================================
+[2025-08-29 14:29:08] [INFO] Results saved: phase2_1756502948

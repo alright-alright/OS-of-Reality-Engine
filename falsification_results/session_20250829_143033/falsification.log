@@ -62,3 +62,7 @@
 [2025-08-29 14:30:46] [INFO] [Phase2] Running control: domain_reversed
 [2025-08-29 14:30:46] [INFO] [Phase2]   domain_reversed: PASSED (expected: FAIL)
 [2025-08-29 14:30:46] [INFO] Checkpoint saved: phase2_controls_6_1756503046.pkl
+[2025-08-29 14:30:46] [INFO] Git commit successful: Checkpoint: phase2_controls iteration 6
+[2025-08-29 14:30:46] [INFO] [Phase2] Running control: temporal_scrambled
+[2025-08-29 14:30:46] [INFO] [Phase2]   temporal_scrambled: PASSED (expected: FAIL)
+[2025-08-29 14:30:46] [INFO] Checkpoint saved: phase2_controls_7_1756503046.pkl

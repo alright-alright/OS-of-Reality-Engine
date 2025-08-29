@@ -20,3 +20,7 @@
 [2025-08-29 15:23:03] [INFO] [Phase2] Running control: structured_but_unrelated
 [2025-08-29 15:23:03] [INFO] [Phase2]   structured_but_unrelated: FAILED (expected: FAIL)
 [2025-08-29 15:23:03] [INFO] Checkpoint saved: phase2_controls_5_1756506183.pkl
+[2025-08-29 15:23:03] [INFO] Git commit successful: Checkpoint: phase2_controls iteration 5
+[2025-08-29 15:23:03] [INFO] [Phase2] Running control: domain_reversed
+[2025-08-29 15:23:03] [INFO] [Phase2]   domain_reversed: FAILED (expected: FAIL)
+[2025-08-29 15:23:03] [INFO] Checkpoint saved: phase2_controls_6_1756506183.pkl

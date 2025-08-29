@@ -1,0 +1,43 @@
+{
+  "executive_summary": {
+    "total_tests_run": 100,
+    "phase1_verdict": "ROBUST",
+    "phase2_verdict": "CONTAMINATED",
+    "mean_mdl_advantage": 0.9287346059492184,
+    "control_contamination": 8
+  },
+  "statistical_significance": {
+    "significant": true,
+    "confidence_level": 0.99,
+    "ci_lower": 0.8461834138676064,
+    "ci_upper": 0.9678293602666289
+  },
+  "effect_sizes": {
+    "cohens_d": 37.921500717835855,
+    "interpretation": "large"
+  },
+  "confidence_intervals": {
+    "ci_99": [
+      0.8461834138676064,
+      0.9678293602666289
+    ],
+    "ci_95": [
+      0.8669871904103456,
+      0.9643948516307803
+    ],
+    "mean": 0.9287346059492184,
+    "median": 0.9322050642951543
+  },
+  "publication_verdict": {
+    "verdict": "HYPOTHESIS SUPPORTED",
+    "confidence": "MODERATE",
+    "recommendation": "ADDITIONAL VALIDATION RECOMMENDED",
+    "criteria_met": {
+      "statistical_robustness": true,
+      "control_cleanliness": false,
+      "torture_resistance": true,
+      "cross_validation_success": true
+    },
+    "overall_score": 0.75
+  }
+}

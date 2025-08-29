@@ -1,0 +1,342 @@
+{
+  "session_id": "20250829_151600",
+  "duration": 0,
+  "total_tests": 100,
+  "phases_completed": [
+    "phase1",
+    "phase2",
+    "phase3",
+    "phase4",
+    "phase5"
+  ],
+  "errors_encountered": 0,
+  "results_summary": {
+    "phase1_verdict": "ROBUST",
+    "phase2_verdict": "CONTAMINATED",
+    "phase5_verdict": "HYPOTHESIS SUPPORTED"
+  },
+  "full_results": {
+    "phase1": {
+      "phase": "Statistical Bombardment",
+      "verdict": "ROBUST",
+      "stats": {
+        "mean_advantage": 0.9287346059492184,
+        "std_advantage": 0.024490977007148106,
+        "median_advantage": 0.9322050642951543,
+        "min_advantage": 0.8431171438437111,
+        "max_advantage": 0.9699464554158816,
+        "pass_rate": 1.0,
+        "confidence_interval_99": [
+          0.8461834138676064,
+          0.9678293602666289
+        ],
+        "confidence_interval_95": [
+          0.8669871904103456,
+          0.9643948516307803
+        ],
+        "effect_size": 37.921500717835855,
+        "total_runs": 100,
+        "successful_runs": 100,
+        "failed_runs": 0
+      },
+      "duration_seconds": 11.467406034469604,
+      "trials_per_second": 8.720367945410878,
+      "checkpoints_saved": 2,
+      "configuration": {
+        "target_runs": 100,
+        "confidence_level": 0.99,
+        "min_advantage_threshold": 0.1,
+        "n_workers": 2
+      },
+      "raw_results": [
+        {
+          "seed": 43,
+          "mdl_advantage": 0.9506451470882282,
+          "unified_mdl": -4.030210822787547,
+          "separate_mdl": -81.65784284662087,
+          "passed": "True",
+          "success": true,
+          "error": null
+        },
+        {
+          "seed": 42,
+          "mdl_advantage": 0.9397000785737726,
+          "unified_mdl": -4.923961507486469,
+          "separate_mdl": -81.65784284662087,
+          "passed": "True",
+          "success": true,
+          "error": null
+        },
+        {
+          "seed": 44,
+          "mdl_advantage": 0.9656694955184013,
+          "unified_mdl": -2.803354939803601,
+          "separate_mdl": -81.65784284662087,
+          "passed": "True",
+          "success": true,
+          "error": null
+        },
+        {
+          "seed": 45,
+          "mdl_advantage": 0.9580852492930442,
+          "unified_mdl": -3.422668126183895,
+          "separate_mdl": -81.65784284662087,
+          "passed": "True",
+          "success": true,
+          "error": null
+        },
+        {
+          "seed": 46,
+          "mdl_advantage": 0.951678064807399,
+          "unified_mdl": -3.9458649900020024,
+          "separate_mdl": -81.65784284662087,
+          "passed": "True",
+          "success": true,
+          "error": null
+        },
+        {
+          "seed": 47,
+          "mdl_advantage": 0.8895092012481045,
+          "unified_mdl": -9.022440280479898,
+          "separate_mdl": -81.65784284662087,
+          "passed": "True",
+          "success": true,
+          "error": null
+        },
+        {
+          "seed": 48,
+          "mdl_advantage": 0.9008884608708312,
+          "unified_mdl": -8.093234486496392,
+          "separate_mdl": -81.65784284662087,
+          "passed": "True",
+          "success": true,
+          "error": null
+        },
+        {
+          "seed": 49,
+          "mdl_advantage": 0.9295492428289616,
+          "unified_mdl": -5.752856857498104,
+          "separate_mdl": -81.65784284662087,
+          "passed": "True",
+          "success": true,
+          "error": null
+        },
+        {
+          "seed": 50,
+          "mdl_advantage": 0.9410148182094634,
+          "unified_mdl": -4.816602704931006,
+          "separate_mdl": -81.65784284662087,
+          "passed": "True",
+          "success": true,
+          "error": null
+        },
+        {
+          "seed": 51,
+          "mdl_advantage": 0.9459117040328606,
+          "unified_mdl": -4.416733571926192,
+          "separate_mdl": -81.65784284662087,
+          "passed": "True",
+          "success": true,
+          "error": null
+        }
+      ]
+    },
+    "phase2": {
+      "phase": "Control Gauntlet",
+      "verdict": "CONTAMINATED",
+      "control_passes": 8,
+      "total_controls": 8,
+      "duration_seconds": 1.9673030376434326,
+      "results": {
+        "shuffled_sequences": {
+          "control_type": "shuffled_sequences",
+          "passed": "True",
+          "mdl_advantage": 0.9522125856169588,
+          "expected_result": "FAIL",
+          "correct": false
+        },
+        "shuffled_labels": {
+          "control_type": "shuffled_labels",
+          "passed": "True",
+          "mdl_advantage": 0.9336771813002241,
+          "expected_result": "FAIL",
+          "correct": false
+        },
+        "pure_random_data": {
+          "control_type": "pure_random_data",
+          "passed": "True",
+          "mdl_advantage": 1.058045298645584,
+          "expected_result": "FAIL",
+          "correct": false
+        },
+        "white_noise": {
+          "control_type": "white_noise",
+          "passed": "True",
+          "mdl_advantage": 1.0647517857005409,
+          "expected_result": "FAIL",
+          "correct": false
+        },
+        "structured_but_unrelated": {
+          "control_type": "structured_but_unrelated",
+          "passed": "True",
+          "mdl_advantage": 1.0394154280013297,
+          "expected_result": "FAIL",
+          "correct": false
+        },
+        "domain_reversed": {
+          "control_type": "domain_reversed",
+          "passed": "True",
+          "mdl_advantage": 0.9347099192109868,
+          "expected_result": "FAIL",
+          "correct": false
+        },
+        "temporal_scrambled": {
+          "control_type": "temporal_scrambled",
+          "passed": "True",
+          "mdl_advantage": 0.9621641699406163,
+          "expected_result": "FAIL",
+          "correct": false
+        },
+        "amplitude_randomized": {
+          "control_type": "amplitude_randomized",
+          "passed": "True",
+          "mdl_advantage": 0.8771712636211768,
+          "expected_result": "FAIL",
+          "correct": false
+        }
+      },
+      "summary": {
+        "all_controls_failed": false,
+        "contamination_rate": 1.0
+      }
+    },
+    "phase3": {
+      "phase": "Robustness Torture",
+      "torture_results": {
+        "noise_levels": [
+          {
+            "noise_level": 0.0,
+            "mdl_advantage": 0.9229732182327868,
+            "passed": "True"
+          },
+          {
+            "noise_level": 0.1,
+            "mdl_advantage": 1.1358892690098845,
+            "passed": "True"
+          },
+          {
+            "noise_level": 0.5,
+            "mdl_advantage": 1.1788085535197126,
+            "passed": "True"
+          },
+          {
+            "noise_level": 1.0,
+            "mdl_advantage": 1.1805239383005153,
+            "passed": "True"
+          },
+          {
+            "noise_level": 2.0,
+            "mdl_advantage": 1.1828917213833183,
+            "passed": "True"
+          }
+        ],
+        "sequence_lengths": [
+          {
+            "duration": 30,
+            "mdl_advantage": 0.9066127660899422,
+            "passed": "True"
+          },
+          {
+            "duration": 60,
+            "mdl_advantage": 0.8234075779460955,
+            "passed": "True"
+          },
+          {
+            "duration": 120,
+            "mdl_advantage": 0.9628846687170276,
+            "passed": "True"
+          }
+        ]
+      },
+      "breaking_points": []
+    },
+    "phase4": {
+      "phase": "Independence Validation",
+      "validation_results": {
+        "leave_domain_out": [
+          {
+            "test_domain": "biological",
+            "train_domains": [
+              "geological",
+              "cosmological"
+            ],
+            "mdl_advantage": 0.5000000000000012,
+            "passed": "True"
+          },
+          {
+            "test_domain": "geological",
+            "train_domains": [
+              "biological",
+              "cosmological"
+            ],
+            "mdl_advantage": 0.7350790211450102,
+            "passed": "True"
+          },
+          {
+            "test_domain": "cosmological",
+            "train_domains": [
+              "biological",
+              "geological"
+            ],
+            "mdl_advantage": 0.69529151860878,
+            "passed": "True"
+          }
+        ]
+      },
+      "overall_cv_score": 0.6434568465845971
+    },
+    "phase5": {
+      "executive_summary": {
+        "total_tests_run": 100,
+        "phase1_verdict": "ROBUST",
+        "phase2_verdict": "CONTAMINATED",
+        "mean_mdl_advantage": 0.9287346059492184,
+        "control_contamination": 8
+      },
+      "statistical_significance": {
+        "significant": true,
+        "confidence_level": 0.99,
+        "ci_lower": 0.8461834138676064,
+        "ci_upper": 0.9678293602666289
+      },
+      "effect_sizes": {
+        "cohens_d": 37.921500717835855,
+        "interpretation": "large"
+      },
+      "confidence_intervals": {
+        "ci_99": [
+          0.8461834138676064,
+          0.9678293602666289
+        ],
+        "ci_95": [
+          0.8669871904103456,
+          0.9643948516307803
+        ],
+        "mean": 0.9287346059492184,
+        "median": 0.9322050642951543
+      },
+      "publication_verdict": {
+        "verdict": "HYPOTHESIS SUPPORTED",
+        "confidence": "MODERATE",
+        "recommendation": "ADDITIONAL VALIDATION RECOMMENDED",
+        "criteria_met": {
+          "statistical_robustness": true,
+          "control_cleanliness": false,
+          "torture_resistance": true,
+          "cross_validation_success": true
+        },
+        "overall_score": 0.75
+      }
+    }
+  }
+}

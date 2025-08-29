@@ -70,3 +70,37 @@
 [2025-08-29 15:16:13] [INFO] [Phase2] Running control: amplitude_randomized
 [2025-08-29 15:16:13] [INFO] [Phase2]   amplitude_randomized: PASSED (expected: FAIL)
 [2025-08-29 15:16:13] [INFO] Checkpoint saved: phase2_controls_8_1756505773.pkl
+[2025-08-29 15:16:13] [INFO] Git commit successful: Checkpoint: phase2_controls iteration 8
+[2025-08-29 15:16:13] [INFO] [Phase2] ============================================================
+[2025-08-29 15:16:13] [INFO] [Phase2] PHASE 2 SUMMARY
+[2025-08-29 15:16:13] [INFO] [Phase2] Verdict: CONTAMINATED
+[2025-08-29 15:16:13] [INFO] [Phase2] Controls passed: 8/8 (should be 0)
+[2025-08-29 15:16:13] [INFO] [Phase2] Duration: 2.0s
+[2025-08-29 15:16:13] [INFO] [Phase2] ============================================================
+[2025-08-29 15:16:13] [INFO] Results saved: phase2_1756505773
+[2025-08-29 15:16:13] [INFO] 
+============================================================
+[2025-08-29 15:16:13] [INFO] PHASE 3: ROBUSTNESS TORTURE TEST
+[2025-08-29 15:16:13] [INFO] ============================================================
+[2025-08-29 15:16:13] [INFO] [Phase3] Starting Robustness Torture Test
+[2025-08-29 15:16:15] [INFO] Results saved: phase3_1756505775
+[2025-08-29 15:16:15] [INFO] 
+============================================================
+[2025-08-29 15:16:15] [INFO] PHASE 4: INDEPENDENCE VALIDATION
+[2025-08-29 15:16:15] [INFO] ============================================================
+[2025-08-29 15:16:15] [INFO] [Phase4] Starting Independence Validation
+[2025-08-29 15:16:15] [INFO] Results saved: phase4_1756505775
+[2025-08-29 15:16:15] [INFO] 
+============================================================
+[2025-08-29 15:16:15] [INFO] PHASE 5: PUBLICATION-GRADE STATISTICS
+[2025-08-29 15:16:15] [INFO] ============================================================
+[2025-08-29 15:16:15] [INFO] [Phase5] Generating Publication-Grade Statistics
+[2025-08-29 15:16:15] [INFO] Results saved: phase5_1756505775
+[2025-08-29 15:16:15] [INFO] 
+================================================================================
+[2025-08-29 15:16:15] [INFO] FINAL FALSIFICATION REPORT
+[2025-08-29 15:16:15] [INFO] ================================================================================
+[2025-08-29 15:16:15] [INFO] Phase 1 (Statistical): ROBUST
+[2025-08-29 15:16:15] [INFO] Phase 2 (Controls): CONTAMINATED
+[2025-08-29 15:16:15] [INFO] Phase 5 (Publication): HYPOTHESIS SUPPORTED
+[2025-08-29 15:16:15] [INFO] Final report saved: falsification_results/session_20250829_151600/FINAL_REPORT.json

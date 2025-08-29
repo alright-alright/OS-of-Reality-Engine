@@ -2,10 +2,14 @@
   "session_id": "20250829_151600",
   "start_time": 1756505760.20189,
   "phases_completed": [
-    "phase1"
+    "phase1",
+    "phase2",
+    "phase3",
+    "phase4",
+    "phase5"
   ],
-  "current_phase": "phase1",
+  "current_phase": "phase5",
   "total_tests_run": 100,
-  "last_checkpoint": "falsification_results/session_20250829_151600/checkpoints/phase1_statistical_100_1756505771.pkl",
+  "last_checkpoint": "falsification_results/session_20250829_151600/checkpoints/phase2_controls_8_1756505773.pkl",
   "errors": []
 }

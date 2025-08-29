@@ -42,3 +42,7 @@
 [2025-08-29 15:23:47] [INFO] [Phase2] Running control: shuffled_sequences
 [2025-08-29 15:23:47] [INFO] [Phase2]   shuffled_sequences: FAILED (expected: FAIL)
 [2025-08-29 15:23:47] [INFO] Checkpoint saved: phase2_controls_1_1756506227.pkl
+[2025-08-29 15:23:47] [INFO] Git commit successful: Checkpoint: phase2_controls iteration 1
+[2025-08-29 15:23:47] [INFO] [Phase2] Running control: shuffled_labels
+[2025-08-29 15:23:47] [INFO] [Phase2]   shuffled_labels: FAILED (expected: FAIL)
+[2025-08-29 15:23:47] [INFO] Checkpoint saved: phase2_controls_2_1756506227.pkl

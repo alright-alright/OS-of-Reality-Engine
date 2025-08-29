@@ -28,3 +28,7 @@
 [2025-08-29 14:29:07] [INFO] [Phase2] Running control: temporal_scrambled
 [2025-08-29 14:29:07] [INFO] [Phase2]   temporal_scrambled: PASSED (expected: FAIL)
 [2025-08-29 14:29:07] [INFO] Checkpoint saved: phase2_controls_7_1756502947.pkl
+[2025-08-29 14:29:07] [INFO] Git commit successful: Checkpoint: phase2_controls iteration 7
+[2025-08-29 14:29:07] [INFO] [Phase2] Running control: amplitude_randomized
+[2025-08-29 14:29:08] [INFO] [Phase2]   amplitude_randomized: PASSED (expected: FAIL)
+[2025-08-29 14:29:08] [INFO] Checkpoint saved: phase2_controls_8_1756502948.pkl

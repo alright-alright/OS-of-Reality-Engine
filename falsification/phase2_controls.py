@@ -14,7 +14,7 @@ from copy import deepcopy
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from protocols.os_reality_protocol import OSRealityProtocol
-from protocols.tier_implementations.t0_compression import T0CompressionTest
+from protocols.tier_implementations.t0_compression_fixed import T0CompressionTestFixed as T0CompressionTest
 
 
 class Phase2ControlGauntlet:

@@ -1,0 +1,2 @@
+This is a dataset of airflow measurements in Postojnska jama, presented in manuscript How do caves breath: the airflow patterns in karst
+underground, submitted by Franci Gabrovšek to PLOS one. The data can be used under CC BY 4.0.

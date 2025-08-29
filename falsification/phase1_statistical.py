@@ -54,7 +54,7 @@ class Phase1StatisticalBombardment:
             
             # Run T0 test only (for speed)
             t0_test = protocol.THRESHOLDS["T0_MDL_ADVANTAGE"]
-            from protocols.tier_implementations.t0_compression import T0CompressionTest
+            from protocols.tier_implementations.t0_compression_fixed import T0CompressionTestFixed as T0CompressionTest
             
             t0 = T0CompressionTest(threshold=t0_test)
             result = t0.run_test(protocol.domain_adapters, protocol.sequences)

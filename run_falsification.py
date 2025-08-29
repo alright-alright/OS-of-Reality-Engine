@@ -39,14 +39,15 @@ def main():
     print("  Phase 5: Publication-Grade Statistics")
     print()
     
-    if args.quick:
-        print("*** QUICK MODE: Using reduced iterations for testing ***")
+    if args.quick or args.phase:
+        print("*** AUTO MODE: Skipping confirmation prompt ***")
+        print("Auto-continuing...")
         print()
-    
-    response = input("Continue? (y/n): ")
-    if response.lower() != 'y':
-        print("Aborted.")
-        return
+    else:
+        response = input("Continue? (y/n): ")
+        if response.lower() != 'y':
+            print("Aborted.")
+            return
     
     # Create launcher
     launcher = FalsificationLauncher()

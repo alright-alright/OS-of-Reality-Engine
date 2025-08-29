@@ -6,7 +6,7 @@ import time
 from domains.biological.bio_adapter import BiologicalAdapter
 from domains.geological.geo_adapter import GeologicalAdapter
 from domains.cosmological.cosmo_adapter import CosmologicalAdapter
-from protocols.tier_implementations.t0_compression import T0CompressionTest
+from protocols.tier_implementations.t0_compression_fixed import T0CompressionTestFixed as T0CompressionTest
 
 class OSRealityProtocol:
     """Complete OS-of-Reality falsification protocol - WORKING IMPLEMENTATION"""

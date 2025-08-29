@@ -11,5 +11,7 @@
   "current_phase": "phase5",
   "total_tests_run": 100,
   "last_checkpoint": "falsification_results/session_20250829_152335/checkpoints/phase2_controls_8_1756506229.pkl",
-  "errors": []
+  "errors": [],
+  "end_time": 1756506231.8848808,
+  "duration": 16.339746713638306
 }

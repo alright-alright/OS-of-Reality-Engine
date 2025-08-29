@@ -1,21 +1,27 @@
 {
-  "protocol_passed": "True",
+  "protocol_passed": "False",
   "tier_results": {
     "T0": {
-      "passed": "True",
-      "mdl_advantage": 0.9510470713010285,
-      "unified_mdl": -3.9973905585824596,
-      "separate_mdl": -81.65784284662087,
+      "passed": "False",
+      "mdl_advantage": -0.4263489537169486,
+      "unified_mdl": -2332688.3981773593,
+      "separate_mdl": -4066389.16339806,
       "details": {
-        "unified_params": 3,
-        "separate_params": 9,
-        "domain_mdls": {
-          "biological": -27.219280948873624,
-          "geological": -27.219280948873624,
-          "cosmological": -27.219280948873624
+        "unified_params": 243009,
+        "unified_reconstruction_error": 5.264934396596496e-27,
+        "separate_params": 243009,
+        "separate_reconstruction_errors": {
+          "biological": 3.4503101301447405e-30,
+          "geological": 2.9887115382006286e-31,
+          "cosmological": 1.8387276408114447e-32
         },
-        "threshold_met": "True",
-        "advantage_pct": 95.10470713010285
+        "domain_mdls": {
+          "biological": -1205869.4881084352,
+          "geological": -1348799.272542769,
+          "cosmological": -1511720.4027468557
+        },
+        "threshold_met": "False",
+        "advantage_pct": -42.63489537169486
       }
     },
     "T1": {
@@ -31,7 +37,7 @@
       "note": "Not implemented yet"
     }
   },
-  "duration_seconds": 0.2019641399383545,
+  "duration_seconds": 0.21429991722106934,
   "domains_tested": [
     "biological",
     "geological",
@@ -42,5 +48,5 @@
     "geological": 3,
     "cosmological": 3
   },
-  "verdict_summary": "UMST unified substrate compresses across domains 95.1% better than separate models"
+  "verdict_summary": "UMST unified substrate does not show compression advantage across domains"
 }

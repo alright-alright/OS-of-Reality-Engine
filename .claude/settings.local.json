@@ -16,7 +16,8 @@
       "Bash(pip3 install:*)",
       "Bash(source:*)",
       "Bash(git init:*)",
-      "Bash(git remote add:*)"
+      "Bash(git remote add:*)",
+      "Bash(find:*)"
     ],
     "deny": [],
     "ask": []

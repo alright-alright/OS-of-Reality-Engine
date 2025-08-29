@@ -1,0 +1,125 @@
+{
+  "phase": "Statistical Bombardment",
+  "verdict": "ROBUST",
+  "stats": {
+    "mean_advantage": 0.9287346059492184,
+    "std_advantage": 0.024490977007148106,
+    "median_advantage": 0.9322050642951543,
+    "min_advantage": 0.8431171438437111,
+    "max_advantage": 0.9699464554158816,
+    "pass_rate": 1.0,
+    "confidence_interval_99": [
+      0.8461834138676064,
+      0.9678293602666289
+    ],
+    "confidence_interval_95": [
+      0.8669871904103456,
+      0.9643948516307803
+    ],
+    "effect_size": 37.921500717835855,
+    "total_runs": 100,
+    "successful_runs": 100,
+    "failed_runs": 0
+  },
+  "duration_seconds": 11.467406034469604,
+  "trials_per_second": 8.720367945410878,
+  "checkpoints_saved": 2,
+  "configuration": {
+    "target_runs": 100,
+    "confidence_level": 0.99,
+    "min_advantage_threshold": 0.1,
+    "n_workers": 2
+  },
+  "raw_results": [
+    {
+      "seed": 43,
+      "mdl_advantage": 0.9506451470882282,
+      "unified_mdl": -4.030210822787547,
+      "separate_mdl": -81.65784284662087,
+      "passed": "True",
+      "success": true,
+      "error": null
+    },
+    {
+      "seed": 42,
+      "mdl_advantage": 0.9397000785737726,
+      "unified_mdl": -4.923961507486469,
+      "separate_mdl": -81.65784284662087,
+      "passed": "True",
+      "success": true,
+      "error": null
+    },
+    {
+      "seed": 44,
+      "mdl_advantage": 0.9656694955184013,
+      "unified_mdl": -2.803354939803601,
+      "separate_mdl": -81.65784284662087,
+      "passed": "True",
+      "success": true,
+      "error": null
+    },
+    {
+      "seed": 45,
+      "mdl_advantage": 0.9580852492930442,
+      "unified_mdl": -3.422668126183895,
+      "separate_mdl": -81.65784284662087,
+      "passed": "True",
+      "success": true,
+      "error": null
+    },
+    {
+      "seed": 46,
+      "mdl_advantage": 0.951678064807399,
+      "unified_mdl": -3.9458649900020024,
+      "separate_mdl": -81.65784284662087,
+      "passed": "True",
+      "success": true,
+      "error": null
+    },
+    {
+      "seed": 47,
+      "mdl_advantage": 0.8895092012481045,
+      "unified_mdl": -9.022440280479898,
+      "separate_mdl": -81.65784284662087,
+      "passed": "True",
+      "success": true,
+      "error": null
+    },
+    {
+      "seed": 48,
+      "mdl_advantage": 0.9008884608708312,
+      "unified_mdl": -8.093234486496392,
+      "separate_mdl": -81.65784284662087,
+      "passed": "True",
+      "success": true,
+      "error": null
+    },
+    {
+      "seed": 49,
+      "mdl_advantage": 0.9295492428289616,
+      "unified_mdl": -5.752856857498104,
+      "separate_mdl": -81.65784284662087,
+      "passed": "True",
+      "success": true,
+      "error": null
+    },
+    {
+      "seed": 50,
+      "mdl_advantage": 0.9410148182094634,
+      "unified_mdl": -4.816602704931006,
+      "separate_mdl": -81.65784284662087,
+      "passed": "True",
+      "success": true,
+      "error": null
+    },
+    {
+      "seed": 51,
+      "mdl_advantage": 0.9459117040328606,
+      "unified_mdl": -4.416733571926192,
+      "separate_mdl": -81.65784284662087,
+      "passed": "True",
+      "success": true,
+      "error": null
+    }
+  ]
+}

@@ -23,3 +23,22 @@
 [2025-08-29 14:30:44] [INFO] [Phase1] Completed 90/100 trials
 [2025-08-29 14:30:45] [INFO] [Phase1] Completed 100/100 trials
 [2025-08-29 14:30:45] [INFO] Checkpoint saved: phase1_statistical_100_1756503045.pkl
+[2025-08-29 14:30:45] [INFO] Git commit successful: Checkpoint: phase1_statistical iteration 100
+[2025-08-29 14:30:45] [INFO] [Phase1] ============================================================
+[2025-08-29 14:30:45] [INFO] [Phase1] PHASE 1 SUMMARY
+[2025-08-29 14:30:45] [INFO] [Phase1] Verdict: ROBUST
+[2025-08-29 14:30:45] [INFO] [Phase1] Mean advantage: 0.930
+[2025-08-29 14:30:45] [INFO] [Phase1] 99% CI: [0.840, 0.975]
+[2025-08-29 14:30:45] [INFO] [Phase1] Pass rate: 100.0%
+[2025-08-29 14:30:45] [INFO] [Phase1] Duration: 11.4s
+[2025-08-29 14:30:45] [INFO] [Phase1] ============================================================
+[2025-08-29 14:30:45] [INFO] Results saved: phase1_1756503045
+[2025-08-29 14:30:45] [INFO] 
+============================================================
+[2025-08-29 14:30:45] [INFO] PHASE 2: CONTROL GAUNTLET
+[2025-08-29 14:30:45] [INFO] ============================================================
+[2025-08-29 14:30:45] [INFO] [Phase2] Starting Control Gauntlet
+[2025-08-29 14:30:45] [INFO] [Phase2] Running 8 control tests
+[2025-08-29 14:30:45] [INFO] [Phase2] Running control: shuffled_sequences
+[2025-08-29 14:30:45] [INFO] [Phase2]   shuffled_sequences: PASSED (expected: FAIL)
+[2025-08-29 14:30:45] [INFO] Checkpoint saved: phase2_controls_1_1756503045.pkl

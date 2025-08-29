@@ -1,0 +1,11 @@
+{
+  "session_id": "20250829_143033",
+  "start_time": 1756503033.866529,
+  "phases_completed": [
+    "phase1"
+  ],
+  "current_phase": "phase1",
+  "total_tests_run": 100,
+  "last_checkpoint": "falsification_results/session_20250829_143033/checkpoints/phase1_statistical_100_1756503045.pkl",
+  "errors": []
+}

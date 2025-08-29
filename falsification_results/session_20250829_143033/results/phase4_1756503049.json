@@ -1,0 +1,35 @@
+{
+  "phase": "Independence Validation",
+  "validation_results": {
+    "leave_domain_out": [
+      {
+        "test_domain": "biological",
+        "train_domains": [
+          "geological",
+          "cosmological"
+        ],
+        "mdl_advantage": 0.5000000000000322,
+        "passed": "True"
+      },
+      {
+        "test_domain": "geological",
+        "train_domains": [
+          "biological",
+          "cosmological"
+        ],
+        "mdl_advantage": 0.7507409117964013,
+        "passed": "True"
+      },
+      {
+        "test_domain": "cosmological",
+        "train_domains": [
+          "biological",
+          "geological"
+        ],
+        "mdl_advantage": 0.7370535977370526,
+        "passed": "True"
+      }
+    ]
+  },
+  "overall_cv_score": 0.6625981698444954
+}

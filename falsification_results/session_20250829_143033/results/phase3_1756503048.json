@@ -1,0 +1,50 @@
+{
+  "phase": "Robustness Torture",
+  "torture_results": {
+    "noise_levels": [
+      {
+        "noise_level": 0.0,
+        "mdl_advantage": 0.9548493198599921,
+        "passed": "True"
+      },
+      {
+        "noise_level": 0.1,
+        "mdl_advantage": 1.1495333307710633,
+        "passed": "True"
+      },
+      {
+        "noise_level": 0.5,
+        "mdl_advantage": 1.1872549194503674,
+        "passed": "True"
+      },
+      {
+        "noise_level": 1.0,
+        "mdl_advantage": 1.186196290935459,
+        "passed": "True"
+      },
+      {
+        "noise_level": 2.0,
+        "mdl_advantage": 1.1833320089252086,
+        "passed": "True"
+      }
+    ],
+    "sequence_lengths": [
+      {
+        "duration": 30,
+        "mdl_advantage": 0.9319565953986684,
+        "passed": "True"
+      },
+      {
+        "duration": 60,
+        "mdl_advantage": 0.9211442244632694,
+        "passed": "True"
+      },
+      {
+        "duration": 120,
+        "mdl_advantage": 0.9319873664439156,
+        "passed": "True"
+      }
+    ]
+  },
+  "breaking_points": []
+}

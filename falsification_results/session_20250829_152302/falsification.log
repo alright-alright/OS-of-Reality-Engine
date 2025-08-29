@@ -1,0 +1,6 @@
+[2025-08-29 15:23:02] [INFO] Falsification Launcher initialized - Session: 20250829_152302
+[2025-08-29 15:23:02] [INFO] [Phase2] Starting Control Gauntlet
+[2025-08-29 15:23:02] [INFO] [Phase2] Running 8 control tests
+[2025-08-29 15:23:02] [INFO] [Phase2] Running control: shuffled_sequences
+[2025-08-29 15:23:02] [INFO] [Phase2]   shuffled_sequences: FAILED (expected: FAIL)
+[2025-08-29 15:23:02] [INFO] Checkpoint saved: phase2_controls_1_1756506182.pkl

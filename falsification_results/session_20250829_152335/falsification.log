@@ -54,3 +54,7 @@
 [2025-08-29 15:23:48] [INFO] [Phase2] Running control: white_noise
 [2025-08-29 15:23:48] [INFO] [Phase2]   white_noise: FAILED (expected: FAIL)
 [2025-08-29 15:23:48] [INFO] Checkpoint saved: phase2_controls_4_1756506228.pkl
+[2025-08-29 15:23:48] [INFO] Git commit successful: Checkpoint: phase2_controls iteration 4
+[2025-08-29 15:23:48] [INFO] [Phase2] Running control: structured_but_unrelated
+[2025-08-29 15:23:48] [INFO] [Phase2]   structured_but_unrelated: FAILED (expected: FAIL)
+[2025-08-29 15:23:48] [INFO] Checkpoint saved: phase2_controls_5_1756506228.pkl

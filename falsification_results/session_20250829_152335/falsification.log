@@ -70,3 +70,37 @@
 [2025-08-29 15:23:49] [INFO] [Phase2] Running control: amplitude_randomized
 [2025-08-29 15:23:49] [INFO] [Phase2]   amplitude_randomized: FAILED (expected: FAIL)
 [2025-08-29 15:23:49] [INFO] Checkpoint saved: phase2_controls_8_1756506229.pkl
+[2025-08-29 15:23:49] [INFO] Git commit successful: Checkpoint: phase2_controls iteration 8
+[2025-08-29 15:23:49] [INFO] [Phase2] ============================================================
+[2025-08-29 15:23:49] [INFO] [Phase2] PHASE 2 SUMMARY
+[2025-08-29 15:23:49] [INFO] [Phase2] Verdict: CLEAN
+[2025-08-29 15:23:49] [INFO] [Phase2] Controls passed: 0/8 (should be 0)
+[2025-08-29 15:23:49] [INFO] [Phase2] Duration: 2.0s
+[2025-08-29 15:23:49] [INFO] [Phase2] ============================================================
+[2025-08-29 15:23:49] [INFO] Results saved: phase2_1756506229
+[2025-08-29 15:23:49] [INFO] 
+============================================================
+[2025-08-29 15:23:49] [INFO] PHASE 3: ROBUSTNESS TORTURE TEST
+[2025-08-29 15:23:49] [INFO] ============================================================
+[2025-08-29 15:23:49] [INFO] [Phase3] Starting Robustness Torture Test
+[2025-08-29 15:23:51] [INFO] Results saved: phase3_1756506231
+[2025-08-29 15:23:51] [INFO] 
+============================================================
+[2025-08-29 15:23:51] [INFO] PHASE 4: INDEPENDENCE VALIDATION
+[2025-08-29 15:23:51] [INFO] ============================================================
+[2025-08-29 15:23:51] [INFO] [Phase4] Starting Independence Validation
+[2025-08-29 15:23:51] [INFO] Results saved: phase4_1756506231
+[2025-08-29 15:23:51] [INFO] 
+============================================================
+[2025-08-29 15:23:51] [INFO] PHASE 5: PUBLICATION-GRADE STATISTICS
+[2025-08-29 15:23:51] [INFO] ============================================================
+[2025-08-29 15:23:51] [INFO] [Phase5] Generating Publication-Grade Statistics
+[2025-08-29 15:23:51] [INFO] Results saved: phase5_1756506231
+[2025-08-29 15:23:51] [INFO] 
+================================================================================
+[2025-08-29 15:23:51] [INFO] FINAL FALSIFICATION REPORT
+[2025-08-29 15:23:51] [INFO] ================================================================================
+[2025-08-29 15:23:51] [INFO] Phase 1 (Statistical): FRAGILE
+[2025-08-29 15:23:51] [INFO] Phase 2 (Controls): CLEAN
+[2025-08-29 15:23:51] [INFO] Phase 5 (Publication): HYPOTHESIS UNSUPPORTED
+[2025-08-29 15:23:51] [INFO] Final report saved: falsification_results/session_20250829_152335/FINAL_REPORT.json

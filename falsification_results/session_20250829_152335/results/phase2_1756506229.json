@@ -1,0 +1,69 @@
+{
+  "phase": "Control Gauntlet",
+  "verdict": "CLEAN",
+  "control_passes": 0,
+  "total_controls": 8,
+  "duration_seconds": 2.036360025405884,
+  "results": {
+    "shuffled_sequences": {
+      "control_type": "shuffled_sequences",
+      "passed": "False",
+      "mdl_advantage": -0.33146628258483396,
+      "expected_result": "FAIL",
+      "correct": true
+    },
+    "shuffled_labels": {
+      "control_type": "shuffled_labels",
+      "passed": "False",
+      "mdl_advantage": -0.4601669324439447,
+      "expected_result": "FAIL",
+      "correct": true
+    },
+    "pure_random_data": {
+      "control_type": "pure_random_data",
+      "passed": "False",
+      "mdl_advantage": -0.02787118827693709,
+      "expected_result": "FAIL",
+      "correct": true
+    },
+    "white_noise": {
+      "control_type": "white_noise",
+      "passed": "False",
+      "mdl_advantage": -0.0030195092383461792,
+      "expected_result": "FAIL",
+      "correct": true
+    },
+    "structured_but_unrelated": {
+      "control_type": "structured_but_unrelated",
+      "passed": "False",
+      "mdl_advantage": -0.0390136360681531,
+      "expected_result": "FAIL",
+      "correct": true
+    },
+    "domain_reversed": {
+      "control_type": "domain_reversed",
+      "passed": "False",
+      "mdl_advantage": -0.39786414349131066,
+      "expected_result": "FAIL",
+      "correct": true
+    },
+    "temporal_scrambled": {
+      "control_type": "temporal_scrambled",
+      "passed": "False",
+      "mdl_advantage": -0.3501989921251222,
+      "expected_result": "FAIL",
+      "correct": true
+    },
+    "amplitude_randomized": {
+      "control_type": "amplitude_randomized",
+      "passed": "False",
+      "mdl_advantage": -0.06250933064952169,
+      "expected_result": "FAIL",
+      "correct": true
+    }
+  },
+  "summary": {
+    "all_controls_failed": true,
+    "contamination_rate": 0.0
+  }
+}

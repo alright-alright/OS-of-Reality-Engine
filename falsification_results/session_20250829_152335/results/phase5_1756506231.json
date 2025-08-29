@@ -1,0 +1,43 @@
+{
+  "executive_summary": {
+    "total_tests_run": 100,
+    "phase1_verdict": "FRAGILE",
+    "phase2_verdict": "CLEAN",
+    "mean_mdl_advantage": -0.44119284968261374,
+    "control_contamination": 0
+  },
+  "statistical_significance": {
+    "significant": false,
+    "confidence_level": 0.99,
+    "ci_lower": -0.5108008054404042,
+    "ci_upper": -0.36078084584231873
+  },
+  "effect_sizes": {
+    "cohens_d": -12.51585936706883,
+    "interpretation": "negligible"
+  },
+  "confidence_intervals": {
+    "ci_99": [
+      -0.5108008054404042,
+      -0.36078084584231873
+    ],
+    "ci_95": [
+      -0.502244693515101,
+      -0.37593315881382877
+    ],
+    "mean": -0.44119284968261374,
+    "median": -0.43916183083023275
+  },
+  "publication_verdict": {
+    "verdict": "HYPOTHESIS UNSUPPORTED",
+    "confidence": "LOW",
+    "recommendation": "MAJOR REVISION REQUIRED",
+    "criteria_met": {
+      "statistical_robustness": false,
+      "control_cleanliness": true,
+      "torture_resistance": false,
+      "cross_validation_success": false
+    },
+    "overall_score": 0.25
+  }
+}

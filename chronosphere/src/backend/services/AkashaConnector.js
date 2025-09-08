@@ -181,10 +181,7 @@ class AkashaConnector {
             longitude: lng,
             region: this.classifyRegion(lat, lng),
             hemisphere: lat > 0 ? 'northern' : 'southern',
-            continent: this.classifyCon
-
-
-tinent(lat, lng),
+            continent: this.classifyContinent(lat, lng),
             connectivity: this.calculateConnectivity(lat, lng)
         };
     }

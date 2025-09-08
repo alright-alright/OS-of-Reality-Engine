@@ -273,7 +273,7 @@ class DiscoveryEngine {
         const ghostLoops = [];
         
         // Use Atlas Ghost-Loops component
-        if (this.atlas.components.ghostLoops) {
+        if (this.atlas.components.ghostLoops && this.atlas.components.ghostLoops.findPatterns) {
             const patterns = await this.atlas.components.ghostLoops.findPatterns(
                 events.map(e => e.event)
             );
@@ -308,6 +308,27 @@ class DiscoveryEngine {
                     period: rec.period,
                     confidence: rec.confidence
                 });
+            });
+        } else {
+            // Fallback ghost loop detection when Atlas component not available
+            const eventGroups = {};
+            events.forEach(e => {
+                const key = `${e.year}_${e.region || 'global'}`;
+                if (!eventGroups[key]) eventGroups[key] = [];
+                eventGroups[key].push(e);
+            });
+            
+            Object.entries(eventGroups).forEach(([key, group]) => {
+                if (group.length > 3) {
+                    ghostLoops.push({
+                        type: 'ghost_loop',
+                        subType: 'temporal_cluster',
+                        year: group[0].year,
+                        region: group[0].region,
+                        events: group.map(e => e.event),
+                        confidence: Math.min(0.9, group.length / 10)
+                    });
+                }
             });
         }
         

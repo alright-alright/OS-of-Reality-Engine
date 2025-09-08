@@ -180,7 +180,9 @@ class ChronoSphereBackend {
     // Real discovery analysis using all services
     this.app.post('/api/discover', async (req, res) => {
       try {
-        const { parameters, timeRange } = req.body;
+        const { startYear, endYear, region, limit } = req.body;
+        const parameters = req.body;
+        const timeRange = { start: startYear, end: endYear };
         
         console.log(`🔍 Starting discovery analysis: ${timeRange.start} to ${timeRange.end}`);
         

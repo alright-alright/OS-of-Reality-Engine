@@ -11,7 +11,7 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     
     <!-- Globe.gl for 3D globe -->
-    <script src="//unpkg.com/globe.gl"></script>
+    <script src="https://unpkg.com/globe.gl"></script>
     
     <!-- CSS -->
     <link rel="stylesheet" href="styles.css">
@@ -28,12 +28,15 @@
 
         function ChronoSphereApp() {
             const [wsConnected, setWsConnected] = useState(false);
-            const [chatOpen, setChatOpen] = useState(false);
+            const [chatOpen, setChatOpen] = useState(true);
             const [chatMessages, setChatMessages] = useState([]);
             const [chatInput, setChatInput] = useState('');
             const [chatLoading, setChatLoading] = useState(false);
             const [sessionId] = useState(`session_${Date.now()}`);
             const [hypothesisMode, setHypothesisMode] = useState(false);
+            const [selectedYear, setSelectedYear] = useState(0);
+            const [timeRange, setTimeRange] = useState({ start: -3000, end: 2024 });
+            const [globalContext, setGlobalContext] = useState([]);
             
             // Define sendChatMessage here to access state
             const sendChatMessage = async () => {
@@ -169,12 +172,24 @@
                 
                 // Create enhanced globe
                 const globe = Globe()
-                    .globeImageUrl('//unpkg.com/three-globe/example/img/earth-blue-marble.jpg')
-                    .bumpImageUrl('//unpkg.com/three-globe/example/img/earth-topology.png')
-                    .backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png')
+                    .globeImageUrl('https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg')
+                    .bumpImageUrl('https://unpkg.com/three-globe/example/img/earth-topology.png')
+                    .backgroundImageUrl('https://unpkg.com/three-globe/example/img/night-sky.png')
                     .showAtmosphere(true)
                     .atmosphereColor('lightskyblue')
                     .atmosphereAltitude(0.25)
+                    .hexPolygonsData([]) // For heatmap
+                    .hexPolygonResolution(3)
+                    .hexPolygonMargin(0.3)
+                    .hexPolygonColor(d => {
+                        // Color based on event density
+                        const intensity = d.density || 0;
+                        if (intensity > 0.8) return 'rgba(255, 0, 136, 0.6)';
+                        if (intensity > 0.5) return 'rgba(0, 255, 136, 0.5)';
+                        if (intensity > 0.2) return 'rgba(0, 170, 255, 0.4)';
+                        return 'rgba(100, 100, 255, 0.2)';
+                    })
+                    .hexPolygonAltitude(d => (d.density || 0) * 0.01)
                     .pointsData([])
                     .pointAltitude(d => d.confidence * 0.3)
                     .pointRadius(d => Math.sqrt(d.confidence) * 0.5)
@@ -204,16 +219,52 @@
                             lng: point.lng,
                             altitude: 0.5
                         }, 1000);
+                        
+                        // Send to chat for context
+                        if (point.title) {
+                            setChatInput(`Tell me about ${point.title} and what else was happening in the world at that time`);
+                        }
+                    })
+                    .onGlobeClick(({ lat, lng }) => {
+                        // Detect continent/region from coordinates
+                        const region = getRegionFromCoords(lat, lng);
+                        console.log(`Globe clicked at ${lat}, ${lng} - Region: ${region}`);
+                        
+                        // Update parameters with selected region
+                        setParameters(prev => ({ ...prev, region }));
+                        
+                        // Visual feedback - zoom to region
+                        globe.pointOfView({
+                            lat: lat,
+                            lng: lng,
+                            altitude: 1.5
+                        }, 1000);
+                        
+                        // Auto-populate chat with context
+                        setChatInput(`What was happening in ${region} throughout history? What were the major civilizations, discoveries, and turning points?`);
+                        
+                        // Load discoveries for that region
+                        loadDiscoveriesForRegion(region);
                     })
                     (globeRef.current);
 
-                // Set initial view
-                globe.pointOfView({ lat: 30, lng: 0, altitude: 2.5 });
-
+                // Set initial view - adjusted for proper centering and size
+                globe.pointOfView({ lat: 20, lng: 0, altitude: 3.0 });
+                
+                // Access the Three.js scene and adjust camera position
+                const scene = globe.scene();
+                const camera = globe.camera();
+                
+                // Move camera down to center the globe in viewport
+                camera.position.y = camera.position.y * 0.7;
+                
                 // Auto-rotate
                 globe.controls().autoRotate = true;
                 globe.controls().autoRotateSpeed = 0.5;
                 globe.controls().enableZoom = true;
+                
+                // Ensure controls target is centered
+                globe.controls().target.set(0, 0, 0);
 
                 // Store globe instance
                 window.chronoGlobe = globe;
@@ -222,8 +273,151 @@
                 loadDiscoveries();
             }, []);
 
+            // Helper function to detect region from coordinates
+            const getRegionFromCoords = (lat, lng) => {
+                // Simple continent detection based on coordinates
+                if (lat > 35 && lat < 71 && lng > -10 && lng < 40) return 'Europe';
+                if (lat > -35 && lat < 37 && lng > -20 && lng < 55) return 'Africa';
+                if (lat > -10 && lat < 55 && lng > 25 && lng < 180) return 'Asia';
+                if (lat > 10 && lat < 85 && lng > -170 && lng < -50) return 'North America';
+                if (lat > -55 && lat < 15 && lng > -85 && lng < -35) return 'South America';
+                if (lat > -50 && lat < -10 && lng > 110 && lng < 180) return 'Australia';
+                if (lat < -60) return 'Antarctica';
+                return 'Ocean';
+            };
+
+            const updateGlobeWithDiscoveries = (discoveries) => {
+                if (window.chronoGlobe && discoveries && discoveries.length > 0) {
+                    const points = [];
+                    const arcs = [];
+                    const heatmapData = [];
+                    
+                    // Create grid for heatmap
+                    const gridSize = 10;
+                    const densityMap = {};
+                    
+                    discoveries.forEach(d => {
+                        if (d.locations && d.locations.length > 0) {
+                            d.locations.forEach(loc => {
+                                points.push({
+                                    lat: loc.lat,
+                                    lng: loc.lng,
+                                    type: d.type,
+                                    title: loc.label || d.title,
+                                    confidence: d.confidence || 0.5,
+                                    color: {
+                                        synchronicity: '#00ff88',
+                                        network: '#00aaff',
+                                        collapse: '#ff0088',
+                                        anomaly: '#ffaa00',
+                                        ghost_loop: '#aa00ff'
+                                    }[d.type] || '#ffffff'
+                                });
+                                
+                                // Add to density map
+                                const gridLat = Math.round(loc.lat / gridSize) * gridSize;
+                                const gridLng = Math.round(loc.lng / gridSize) * gridSize;
+                                const key = `${gridLat},${gridLng}`;
+                                densityMap[key] = (densityMap[key] || 0) + 1;
+                            });
+                        }
+                    });
+                    
+                    // Convert density map to heatmap data
+                    Object.entries(densityMap).forEach(([key, count]) => {
+                        const [lat, lng] = key.split(',').map(Number);
+                        heatmapData.push({
+                            lat,
+                            lng,
+                            density: Math.min(count / 10, 1) // Normalize
+                        });
+                    });
+                    
+                    window.chronoGlobe
+                        .pointsData(points)
+                        .hexPolygonsData(heatmapData);
+                }
+            };
+
+            const loadDiscoveriesForYear = async (year) => {
+                setIsLoading(true);
+                const startTime = Date.now();
+                try {
+                    // Define year range (±50 years)
+                    const yearRange = 50;
+                    const response = await fetch(`${API_URL}/api/discover`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            parameters: { ...parameters },
+                            timeRange: { start: year - yearRange, end: year + yearRange }
+                        })
+                    });
+                    const data = await response.json();
+                    
+                    // Measure latency
+                    const latency = Date.now() - startTime;
+                    setSystemStatus(prev => ({ ...prev, latency }));
+                    
+                    if (!data.error && data.discoveries) {
+                        setDiscoveries(data.discoveries);
+                        updateGlobeWithDiscoveries(data.discoveries);
+                        
+                        // Load global context - what else was happening
+                        loadGlobalContext(year);
+                    }
+                } catch (error) {
+                    console.error('Failed to load year discoveries:', error);
+                } finally {
+                    setIsLoading(false);
+                }
+            };
+
+            const loadGlobalContext = async (year) => {
+                // Simulate loading context events from different regions
+                const mockContext = [
+                    { region: 'China', title: 'Tang Dynasty flourishes', year },
+                    { region: 'Maya', title: 'Classic period peaks', year },
+                    { region: 'Rome', title: 'Empire expands eastward', year },
+                    { region: 'India', title: 'Gupta golden age', year }
+                ].filter(e => Math.random() > 0.3); // Random selection for demo
+                
+                setGlobalContext(mockContext);
+            };
+
+            const loadDiscoveriesForRegion = async (region) => {
+                setIsLoading(true);
+                const startTime = Date.now();
+                try {
+                    const response = await fetch(`${API_URL}/api/discover`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            parameters: { ...parameters, region },
+                            timeRange: { start: -3000, end: 2024 }
+                        })
+                    });
+                    const data = await response.json();
+                    
+                    // Measure latency
+                    const latency = Date.now() - startTime;
+                    setSystemStatus(prev => ({ ...prev, latency }));
+                    
+                    if (!data.error && data.discoveries) {
+                        setDiscoveries(data.discoveries);
+                        // Update globe with region-specific discoveries
+                        updateGlobeWithDiscoveries(data.discoveries);
+                    }
+                } catch (error) {
+                    console.error('Failed to load region discoveries:', error);
+                } finally {
+                    setIsLoading(false);
+                }
+            };
+
             const loadDiscoveries = async () => {
                 setIsLoading(true);
+                const startTime = Date.now();
                 try {
                     const response = await fetch(`${API_URL}/api/discover`, {
                         method: 'POST',
@@ -234,10 +428,21 @@
                         })
                     });
                     const data = await response.json();
-                    setDiscoveries(data.discoveries);
+                    
+                    // Measure latency
+                    const latency = Date.now() - startTime;
+                    setSystemStatus(prev => ({ ...prev, latency }));
+                    
+                    if (data.error) {
+                        console.error('Discovery error:', data.error);
+                        setDiscoveries([]);
+                        return;
+                    }
+                    
+                    setDiscoveries(data.discoveries || []);
                     
                     // Update globe with enhanced discovery points and arcs
-                    if (window.chronoGlobe && data.discoveries) {
+                    if (window.chronoGlobe && data.discoveries && data.discoveries.length > 0) {
                         const points = [];
                         const arcs = [];
                         
@@ -407,12 +612,21 @@
                             </div>
                         </div>
 
-                        {/* SoulLayer Monitor */}
+                        {/* Data Sources Monitor */}
                         <div className="monitor-card">
-                            <div className="monitor-label">SOULLAYER</div>
+                            <div className="monitor-label">DATA SOURCES</div>
                             <div className="monitor-value">
-                                <span className={`monitor-indicator ${systemStatus.atlas?.soulLayer === 'active' ? 'indicator-active' : 'indicator-inactive'}`}></span>
-                                {systemStatus.atlas?.soulLayer === 'active' ? 'LUCIAN' : 'OFFLINE'}
+                                <span className="monitor-indicator indicator-active"></span>
+                                WIKIDATA
+                            </div>
+                        </div>
+
+                        {/* Latency Monitor */}
+                        <div className="monitor-card">
+                            <div className="monitor-label">LATENCY</div>
+                            <div className="monitor-value">
+                                <span className={`monitor-indicator ${systemStatus.latency < 500 ? 'indicator-active' : systemStatus.latency < 1000 ? 'indicator-warning' : 'indicator-inactive'}`}></span>
+                                {systemStatus.latency || '~'}ms
                             </div>
                         </div>
 
@@ -432,16 +646,17 @@
                         </div>
                     </nav>
 
-                    {/* Chat Toggle Button */}
-                    <div 
+                    {/* Chat Toggle Button - Hidden for now as chat stays open */}
+                    {/* <div 
                         className={`chat-toggle ${chatOpen ? 'open' : ''}`}
                         onClick={() => setChatOpen(!chatOpen)}
                     >
                         <span className="chat-icon">{chatOpen ? '✕' : '💬'}</span>
-                    </div>
+                    </div> */}
 
                     {/* Main Content */}
                     <div className={`main-container ${chatOpen ? 'chat-open' : ''}`}>
+                        <div className="content-wrapper">
                         {/* ChronoForge Control Panel */}
                         <div className="forge-panel">
                             <div className="forge-header">
@@ -495,12 +710,65 @@
                         {/* Globe Container */}
                         <div className="globe-container">
                             <h3 className="globe-title">Historical Discovery Network</h3>
-                            <div ref={globeRef} id="globe" style={{ width: '100%', height: '500px' }}></div>
+                            <div ref={globeRef} id="globe" style={{ 
+                                width: '100%', 
+                                height: '550px',
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center'
+                            }}></div>
+                            
+                            {/* Time Slider */}
+                            <div className="time-slider-container">
+                                <div className="time-slider-header">
+                                    <span className="time-label">TIME PERIOD</span>
+                                    <span className="time-value">
+                                        {selectedYear === 0 ? 'Present' : 
+                                         selectedYear < 0 ? `${Math.abs(selectedYear)} BCE` : 
+                                         `${selectedYear} CE`}
+                                    </span>
+                                </div>
+                                <input 
+                                    type="range"
+                                    className="time-slider"
+                                    min="-3000"
+                                    max="2024"
+                                    value={selectedYear}
+                                    onChange={(e) => {
+                                        const year = parseInt(e.target.value);
+                                        setSelectedYear(year);
+                                        loadDiscoveriesForYear(year);
+                                    }}
+                                />
+                                <div className="time-slider-marks">
+                                    <span>3000 BCE</span>
+                                    <span>1000 BCE</span>
+                                    <span>0</span>
+                                    <span>1000 CE</span>
+                                    <span>2024</span>
+                                </div>
+                            </div>
                         </div>
+
+                        {/* Global Context Panel - What Else Was Happening? */}
+                        {globalContext.length > 0 && (
+                            <div className="context-panel">
+                                <h3 className="context-title">🌍 Meanwhile, Around the World...</h3>
+                                <div className="context-grid">
+                                    {globalContext.map((event, idx) => (
+                                        <div key={idx} className="context-card">
+                                            <div className="context-region">{event.region}</div>
+                                            <div className="context-event">{event.title}</div>
+                                            <div className="context-year">{event.year}</div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
 
                         {/* Discovery Cards */}
                         <div className="discovery-grid">
-                            {discoveries.map((discovery, index) => (
+                            {discoveries && discoveries.length > 0 ? discoveries.map((discovery, index) => (
                                 <div key={index} className="discovery-card">
                                     <div className="discovery-type">{discovery.type.toUpperCase()}</div>
                                     <div className="discovery-title">{discovery.title}</div>
@@ -517,7 +785,12 @@
                                         </span>
                                     </div>
                                 </div>
-                            ))}
+                            )) : (
+                                <div className="no-discoveries">
+                                    <p>No discoveries yet. Try adjusting the time range or wait for data to load...</p>
+                                </div>
+                            )}
+                        </div>
                         </div>
                     </div>
 
@@ -578,7 +851,7 @@
                             </div>
                         )}
                         
-                        {chatMessages.map((msg, index) => (
+                        {chatMessages && chatMessages.length > 0 && chatMessages.map((msg, index) => (
                             <div key={index} className={`message ${msg.role}`}>
                                 <span className="message-label">
                                     {msg.role === 'user' ? 'You' : 'ChronoSphere AI'}

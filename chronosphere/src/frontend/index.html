@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChronoSphere - Historical Discovery Engine</title>
+    
+    <!-- React -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Globe.gl for 3D globe -->
+    <script src="//unpkg.com/globe.gl"></script>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        // Configuration
+        const API_URL = 'http://localhost:8000';
+        const WS_URL = 'ws://localhost:8001';
+
+        function ChronoSphereApp() {
+            const [wsConnected, setWsConnected] = useState(false);
+            const [chatOpen, setChatOpen] = useState(false);
+            const [chatMessages, setChatMessages] = useState([]);
+            const [chatInput, setChatInput] = useState('');
+            const [chatLoading, setChatLoading] = useState(false);
+            const [sessionId] = useState(`session_${Date.now()}`);
+            const [hypothesisMode, setHypothesisMode] = useState(false);
+            
+            // Define sendChatMessage here to access state
+            const sendChatMessage = async () => {
+                if (!chatInput.trim() || chatLoading) return;
+                
+                const message = chatInput;
+                setChatInput('');
+                setChatLoading(true);
+                
+                // Add user message
+                setChatMessages(prev => [...prev, {
+                    role: 'user',
+                    content: message,
+                    timestamp: Date.now()
+                }]);
+                
+                try {
+                    const response = await fetch(`${API_URL}/api/chat`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            sessionId,
+                            message,
+                            options: {
+                                hypothesisMode,
+                                discoveries: discoveries.slice(0, 5),
+                                focus: hypothesisMode ? 'hypothesis' : 'general'
+                            }
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    // Add assistant response
+                    setChatMessages(prev => [...prev, {
+                        role: 'assistant',
+                        content: data.content,
+                        metadata: data.metadata,
+                        timestamp: Date.now()
+                    }]);
+                    
+                    // Auto-scroll to bottom
+                    setTimeout(() => {
+                        const messagesEl = document.querySelector('.chat-messages');
+                        if (messagesEl) {
+                            messagesEl.scrollTop = messagesEl.scrollHeight;
+                        }
+                    }, 100);
+                    
+                } catch (error) {
+                    console.error('Chat error:', error);
+                    setChatMessages(prev => [...prev, {
+                        role: 'assistant',
+                        content: 'Sorry, I encountered an error. Please try again.',
+                        timestamp: Date.now()
+                    }]);
+                } finally {
+                    setChatLoading(false);
+                }
+            };
+            const [systemStatus, setSystemStatus] = useState({
+                components: 7,
+                loops: 0,
+                memory: 0,
+                latency: 0,
+                wikidata: 'connecting',
+                akasha: 'ready',
+                atlas: {},
+                ai: {},
+                activeProvider: 'fallback'
+            });
+            const [discoveries, setDiscoveries] = useState([]);
+            const chatMessagesRef = useRef(null);
+            const [parameters, setParameters] = useState({
+                temporalSmoothing: 0.7,
+                timeWindowRadius: 50,
+                spatialClustering: 0.6,
+                synchronicityThreshold: 0.75,
+                causalityStrength: 0.6,
+                networkDensity: 0.5,
+                culturalDiffusion: 0.4,
+                anomalyDetection: 0.7,
+                certaintyRequirement: 0.7
+            });
+            const [activePreset, setActivePreset] = useState('exploration');
+            const [isLoading, setIsLoading] = useState(false);
+            
+            const globeRef = useRef(null);
+            const wsRef = useRef(null);
+
+            // Initialize WebSocket
+            useEffect(() => {
+                console.log('🔌 Connecting to WebSocket...');
+                const ws = new WebSocket(WS_URL);
+                wsRef.current = ws;
+
+                ws.onopen = () => {
+                    console.log('✅ WebSocket connected');
+                    setWsConnected(true);
+                };
+
+                ws.onmessage = (event) => {
+                    try {
+                        const message = JSON.parse(event.data);
+                        if (message.type === 'status') {
+                            setSystemStatus(message.data);
+                        }
+                    } catch (e) {
+                        console.error('WebSocket message error:', e);
+                    }
+                };
+
+                ws.onerror = (error) => {
+                    console.error('❌ WebSocket error:', error);
+                    setWsConnected(false);
+                };
+
+                ws.onclose = () => {
+                    console.log('🔌 WebSocket disconnected');
+                    setWsConnected(false);
+                };
+
+                return () => {
+                    ws.close();
+                };
+            }, []);
+
+            // Initialize Globe with enhanced visualization
+            useEffect(() => {
+                if (!globeRef.current) return;
+
+                console.log('🌍 Initializing Globe.gl with enhanced features...');
+                
+                // Create enhanced globe
+                const globe = Globe()
+                    .globeImageUrl('//unpkg.com/three-globe/example/img/earth-blue-marble.jpg')
+                    .bumpImageUrl('//unpkg.com/three-globe/example/img/earth-topology.png')
+                    .backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png')
+                    .showAtmosphere(true)
+                    .atmosphereColor('lightskyblue')
+                    .atmosphereAltitude(0.25)
+                    .pointsData([])
+                    .pointAltitude(d => d.confidence * 0.3)
+                    .pointRadius(d => Math.sqrt(d.confidence) * 0.5)
+                    .pointColor(d => {
+                        const colors = {
+                            synchronicity: '#00ff88',
+                            network: '#00aaff',
+                            collapse: '#ff0088',
+                            anomaly: '#ffaa00',
+                            ghost_loop: '#aa00ff'
+                        };
+                        return colors[d.type] || '#ffffff';
+                    })
+                    .pointLabel(d => `
+                        <div style="background: rgba(0,0,0,0.9); padding: 8px; border-radius: 4px; border: 1px solid ${d.color || '#00ff88'};">
+                            <div style="color: ${d.color || '#00ff88'}; font-size: 14px; font-weight: bold;">${d.title || d.label}</div>
+                            <div style="color: #fff; font-size: 12px; margin-top: 4px;">${d.type?.toUpperCase() || 'DISCOVERY'}</div>
+                            <div style="color: #aaa; font-size: 11px; margin-top: 2px;">Confidence: ${((d.confidence || 0) * 100).toFixed(0)}%</div>
+                            ${d.year ? `<div style="color: #888; font-size: 10px; margin-top: 2px;">Year: ${d.year}</div>` : ''}
+                        </div>
+                    `)
+                    .onPointClick(point => {
+                        console.log('Discovery clicked:', point);
+                        // Focus on the clicked point
+                        globe.pointOfView({
+                            lat: point.lat,
+                            lng: point.lng,
+                            altitude: 0.5
+                        }, 1000);
+                    })
+                    (globeRef.current);
+
+                // Set initial view
+                globe.pointOfView({ lat: 30, lng: 0, altitude: 2.5 });
+
+                // Auto-rotate
+                globe.controls().autoRotate = true;
+                globe.controls().autoRotateSpeed = 0.5;
+                globe.controls().enableZoom = true;
+
+                // Store globe instance
+                window.chronoGlobe = globe;
+
+                // Load initial discoveries
+                loadDiscoveries();
+            }, []);
+
+            const loadDiscoveries = async () => {
+                setIsLoading(true);
+                try {
+                    const response = await fetch(`${API_URL}/api/discover`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            parameters,
+                            timeRange: { start: -1500, end: -1000 }
+                        })
+                    });
+                    const data = await response.json();
+                    setDiscoveries(data.discoveries);
+                    
+                    // Update globe with enhanced discovery points and arcs
+                    if (window.chronoGlobe && data.discoveries) {
+                        const points = [];
+                        const arcs = [];
+                        
+                        data.discoveries.forEach(d => {
+                            if (d.locations && d.locations.length > 0) {
+                                // Add points for each location
+                                d.locations.forEach(loc => {
+                                    points.push({
+                                        lat: loc.lat,
+                                        lng: loc.lng,
+                                        type: d.type,
+                                        title: loc.label || d.title,
+                                        confidence: d.confidence || 0.5,
+                                        year: d.year,
+                                        color: d.type === 'synchronicity' ? '#00ff88' : 
+                                              d.type === 'network' ? '#00aaff' : 
+                                              d.type === 'collapse' ? '#ff0088' :
+                                              d.type === 'anomaly' ? '#ffaa00' : '#aa00ff'
+                                    });
+                                });
+                                
+                                // Add arcs for connected discoveries
+                                if (d.type === 'network' && d.locations.length > 1) {
+                                    for (let i = 0; i < d.locations.length - 1; i++) {
+                                        arcs.push({
+                                            startLat: d.locations[i].lat,
+                                            startLng: d.locations[i].lng,
+                                            endLat: d.locations[i + 1].lat,
+                                            endLng: d.locations[i + 1].lng,
+                                            color: '#00aaff'
+                                        });
+                                    }
+                                } else if (d.type === 'synchronicity' && d.locations.length > 2) {
+                                    // Connect all synchronicity points to show simultaneity
+                                    const center = d.locations[0];
+                                    d.locations.slice(1).forEach(loc => {
+                                        arcs.push({
+                                            startLat: center.lat,
+                                            startLng: center.lng,
+                                            endLat: loc.lat,
+                                            endLng: loc.lng,
+                                            color: '#00ff88'
+                                        });
+                                    });
+                                }
+                            }
+                        });
+                        
+                        // Update globe with points and arcs
+                        window.chronoGlobe
+                            .pointsData(points)
+                            .arcsData(arcs)
+                            .arcColor('color')
+                            .arcDashLength(0.5)
+                            .arcDashGap(0.1)
+                            .arcDashAnimateTime(2000)
+                            .arcAltitudeAutoScale(0.3);
+                        
+                        // Add rings for high-confidence discoveries
+                        const rings = points
+                            .filter(p => p.confidence > 0.8)
+                            .map(p => ({
+                                lat: p.lat,
+                                lng: p.lng,
+                                maxR: 3,
+                                propagationSpeed: 1,
+                                repeatPeriod: 2000
+                            }));
+                        
+                        if (window.chronoGlobe.ringsData) {
+                            window.chronoGlobe
+                                .ringsData(rings)
+                                .ringColor(() => 'rgba(0, 255, 136, 0.6)')
+                                .ringMaxRadius('maxR')
+                                .ringPropagationSpeed('propagationSpeed')
+                                .ringRepeatPeriod('repeatPeriod');
+                        }
+                    }
+                } catch (error) {
+                    console.error('Failed to load discoveries:', error);
+                } finally {
+                    setIsLoading(false);
+                }
+            };
+
+            const handleParameterChange = (param, value) => {
+                setParameters(prev => ({ ...prev, [param]: value }));
+            };
+
+            const handlePresetChange = (preset) => {
+                setActivePreset(preset);
+                const presets = {
+                    conservative: { certaintyRequirement: 0.9, speculationLimit: 0.1 },
+                    exploration: { anomalyDetection: 0.9, synchronicityThreshold: 0.6 },
+                    academic: { certaintyRequirement: 0.85, verificationDepth: 7 },
+                    discovery: { anomalyDetection: 0.95, networkDensity: 0.8 }
+                };
+                if (presets[preset]) {
+                    setParameters(prev => ({ ...prev, ...presets[preset] }));
+                }
+            };
+
+            return (
+                <div className="app">
+                    {/* Navigation Bar with LucianOS Component Monitors */}
+                    <nav className="navbar">
+                        {/* AI Provider Monitor */}
+                        <div className="monitor-card ai-monitor">
+                            <div className="monitor-label">AI PROVIDER</div>
+                            <div className="monitor-value">
+                                <span className={`monitor-indicator ${systemStatus.activeProvider !== 'fallback' ? 'indicator-active' : 'indicator-warning'}`}></span>
+                                {systemStatus.activeProvider?.toUpperCase() || 'FALLBACK'}
+                            </div>
+                        </div>
+
+                        {/* Atlas SSP Monitor */}
+                        <div className="monitor-card">
+                            <div className="monitor-label">SSP</div>
+                            <div className="monitor-value">
+                                <span className={`monitor-indicator ${systemStatus.atlas?.ssp === 'active' ? 'indicator-active' : 'indicator-inactive'}`}></span>
+                                {systemStatus.atlas?.ssp?.toUpperCase() || 'OFFLINE'}
+                            </div>
+                        </div>
+
+                        {/* Atlas MPU Monitor */}
+                        <div className="monitor-card">
+                            <div className="monitor-label">MPU</div>
+                            <div className="monitor-value">
+                                <span className={`monitor-indicator ${systemStatus.atlas?.mpu === 'active' ? 'indicator-active' : 'indicator-inactive'}`}></span>
+                                {systemStatus.atlas?.mpu?.toUpperCase() || 'OFFLINE'}
+                            </div>
+                        </div>
+
+                        {/* Atlas HASR Monitor */}
+                        <div className="monitor-card">
+                            <div className="monitor-label">HASR</div>
+                            <div className="monitor-value">
+                                <span className={`monitor-indicator ${systemStatus.atlas?.hasr === 'active' ? 'indicator-active' : 'indicator-inactive'}`}></span>
+                                {systemStatus.atlas?.hasr?.toUpperCase() || 'OFFLINE'}
+                            </div>
+                        </div>
+
+                        {/* Ghost Loops Monitor */}
+                        <div className="monitor-card">
+                            <div className="monitor-label">GHOST-LOOPS</div>
+                            <div className="monitor-value">
+                                <span className={`monitor-indicator ${systemStatus.atlas?.ghostLoops === 'active' ? 'indicator-active' : 'indicator-inactive'}`}></span>
+                                {systemStatus.loops || 0}
+                            </div>
+                        </div>
+
+                        {/* AKASHA Monitor */}
+                        <div className="monitor-card">
+                            <div className="monitor-label">AKASHA</div>
+                            <div className="monitor-value">
+                                <span className={`monitor-indicator ${systemStatus.akasha === 'active' ? 'indicator-active' : systemStatus.akasha === 'local' ? 'indicator-warning' : 'indicator-inactive'}`}></span>
+                                {systemStatus.akasha?.toUpperCase() || 'OFFLINE'}
+                            </div>
+                        </div>
+
+                        {/* Wikidata Monitor */}
+                        <div className="monitor-card">
+                            <div className="monitor-label">WIKIDATA</div>
+                            <div className="monitor-value">
+                                <span className={`monitor-indicator ${systemStatus.wikidata === 'connected' ? 'indicator-active' : 'indicator-warning'}`}></span>
+                                SPARQL
+                            </div>
+                        </div>
+
+                        {/* SoulLayer Monitor */}
+                        <div className="monitor-card">
+                            <div className="monitor-label">SOULLAYER</div>
+                            <div className="monitor-value">
+                                <span className={`monitor-indicator ${systemStatus.atlas?.soulLayer === 'active' ? 'indicator-active' : 'indicator-inactive'}`}></span>
+                                {systemStatus.atlas?.soulLayer === 'active' ? 'LUCIAN' : 'OFFLINE'}
+                            </div>
+                        </div>
+
+                        {/* Memory Monitor */}
+                        <div className="monitor-card">
+                            <div className="monitor-label">MEMORY</div>
+                            <div className="monitor-value">{systemStatus.memory.toFixed(0)}MB</div>
+                        </div>
+
+                        {/* WebSocket Monitor */}
+                        <div className="monitor-card">
+                            <div className="monitor-label">WS</div>
+                            <div className="monitor-value">
+                                <span className={`monitor-indicator ${wsConnected ? 'indicator-active' : 'indicator-error'}`}></span>
+                                {wsConnected ? 'LIVE' : 'OFF'}
+                            </div>
+                        </div>
+                    </nav>
+
+                    {/* Chat Toggle Button */}
+                    <div 
+                        className={`chat-toggle ${chatOpen ? 'open' : ''}`}
+                        onClick={() => setChatOpen(!chatOpen)}
+                    >
+                        <span className="chat-icon">{chatOpen ? '✕' : '💬'}</span>
+                    </div>
+
+                    {/* Main Content */}
+                    <div className={`main-container ${chatOpen ? 'chat-open' : ''}`}>
+                        {/* ChronoForge Control Panel */}
+                        <div className="forge-panel">
+                            <div className="forge-header">
+                                <h2 className="forge-title">ChronoForge Discovery Engine</h2>
+                                <div className="preset-buttons">
+                                    {['conservative', 'exploration', 'academic', 'discovery'].map(preset => (
+                                        <button 
+                                            key={preset}
+                                            className={`preset-btn ${activePreset === preset ? 'active' : ''}`}
+                                            onClick={() => handlePresetChange(preset)}
+                                        >
+                                            {preset.charAt(0).toUpperCase() + preset.slice(1)}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div className="parameter-grid">
+                                {Object.entries(parameters).slice(0, 9).map(([key, value]) => (
+                                    <div key={key} className="parameter-control">
+                                        <div className="parameter-header">
+                                            <span className="parameter-name">
+                                                {key.replace(/([A-Z])/g, ' $1').trim()}
+                                            </span>
+                                            <span className="parameter-value">
+                                                {(value * 100).toFixed(0)}%
+                                            </span>
+                                        </div>
+                                        <input
+                                            type="range"
+                                            className="slider"
+                                            min="0"
+                                            max="1"
+                                            step="0.01"
+                                            value={value}
+                                            onChange={(e) => handleParameterChange(key, parseFloat(e.target.value))}
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+
+                            <button 
+                                className="discover-btn"
+                                onClick={loadDiscoveries}
+                                disabled={isLoading}
+                            >
+                                {isLoading ? 'Discovering...' : 'Run Discovery Analysis'}
+                            </button>
+                        </div>
+
+                        {/* Globe Container */}
+                        <div className="globe-container">
+                            <h3 className="globe-title">Historical Discovery Network</h3>
+                            <div ref={globeRef} id="globe" style={{ width: '100%', height: '500px' }}></div>
+                        </div>
+
+                        {/* Discovery Cards */}
+                        <div className="discovery-grid">
+                            {discoveries.map((discovery, index) => (
+                                <div key={index} className="discovery-card">
+                                    <div className="discovery-type">{discovery.type.toUpperCase()}</div>
+                                    <div className="discovery-title">{discovery.title}</div>
+                                    <div className="discovery-description">{discovery.description}</div>
+                                    <div className="discovery-confidence">
+                                        <div className="confidence-bar">
+                                            <div 
+                                                className="confidence-fill" 
+                                                style={{ width: `${discovery.confidence * 100}%` }}
+                                            ></div>
+                                        </div>
+                                        <span className="confidence-percent">
+                                            {(discovery.confidence * 100).toFixed(0)}%
+                                        </span>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Historical Chat Panel */}
+                    <ChatPanel 
+                        chatOpen={chatOpen}
+                        chatMessages={chatMessages}
+                        chatInput={chatInput}
+                        setChatInput={setChatInput}
+                        chatLoading={chatLoading}
+                        hypothesisMode={hypothesisMode}
+                        setHypothesisMode={setHypothesisMode}
+                        sendChatMessage={sendChatMessage}
+                        setChatMessages={setChatMessages}
+                        discoveries={discoveries}
+                        sessionId={sessionId}
+                    />
+                </div>
+            );
+        }
+
+        // Chat Panel Component
+        function ChatPanel({ 
+            chatOpen, chatMessages, chatInput, setChatInput, 
+            chatLoading, hypothesisMode, setHypothesisMode, 
+            sendChatMessage, setChatMessages, discoveries, sessionId 
+        }) {
+            return (
+                <div className={`chat-panel ${chatOpen ? 'open' : ''}`}>
+                    <div className="chat-header">
+                        <div className="chat-title">
+                            <span>🤖</span>
+                            <span>Historical AI Chat</span>
+                        </div>
+                        <div className="chat-status">
+                            <span className="chat-indicator"></span>
+                            <span className="chat-mode">
+                                {hypothesisMode ? 'HYPOTHESIS' : 'DISCOVERY'}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div className="chat-messages">
+                        {chatMessages.length === 0 && (
+                            <div className="message assistant">
+                                <span className="message-label">ChronoSphere AI</span>
+                                <div className="message-content">
+                                    <p>Hello! I'm your historical discovery assistant powered by Lucian systems.</p>
+                                    <p>I can help you:</p>
+                                    <ul>
+                                        <li>Explain discoveries on the globe</li>
+                                        <li>Test historical hypotheses</li>
+                                        <li>Find patterns across civilizations</li>
+                                        <li>Analyze connections between events</li>
+                                    </ul>
+                                    <p><strong>Try asking:</strong> "What caused the Bronze Age collapse?" or "Is there a connection between Maya and Egypt?"</p>
+                                </div>
+                            </div>
+                        )}
+                        
+                        {chatMessages.map((msg, index) => (
+                            <div key={index} className={`message ${msg.role}`}>
+                                <span className="message-label">
+                                    {msg.role === 'user' ? 'You' : 'ChronoSphere AI'}
+                                </span>
+                                <div 
+                                    className="message-content"
+                                    dangerouslySetInnerHTML={{ 
+                                        __html: msg.role === 'assistant' 
+                                            ? formatMarkdown(msg.content)
+                                            : msg.content 
+                                    }}
+                                />
+                                <span className="message-timestamp">
+                                    {new Date(msg.timestamp).toLocaleTimeString()}
+                                </span>
+                            </div>
+                        ))}
+                        
+                        {chatLoading && (
+                            <div className="message assistant">
+                                <div className="thinking-dots">
+                                    <div className="thinking-dot"></div>
+                                    <div className="thinking-dot"></div>
+                                    <div className="thinking-dot"></div>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
+                    <div className="chat-input-container">
+                        <div className="chat-input-wrapper">
+                            <textarea
+                                className="chat-input"
+                                value={chatInput}
+                                onChange={(e) => setChatInput(e.target.value)}
+                                onKeyPress={(e) => {
+                                    if (e.key === 'Enter' && !e.shiftKey) {
+                                        e.preventDefault();
+                                        sendChatMessage();
+                                    }
+                                }}
+                                placeholder={hypothesisMode 
+                                    ? "Enter a hypothesis to test..." 
+                                    : "Ask about historical patterns..."}
+                                rows="2"
+                                disabled={chatLoading}
+                            />
+                            <button 
+                                className="chat-send-btn"
+                                onClick={sendChatMessage}
+                                disabled={!chatInput.trim() || chatLoading}
+                            >
+                                <span>Send</span>
+                            </button>
+                        </div>
+                        
+                        <div className="chat-options">
+                            <div 
+                                className={`chat-option ${hypothesisMode ? 'active' : ''}`}
+                                onClick={() => setHypothesisMode(!hypothesisMode)}
+                            >
+                                🔬 Hypothesis Mode
+                            </div>
+                            <div 
+                                className="chat-option"
+                                onClick={() => {
+                                    setChatInput('Explain the most recent discovery');
+                                }}
+                            >
+                                🔍 Explain Discovery
+                            </div>
+                            <div 
+                                className="chat-option"
+                                onClick={() => {
+                                    setChatInput('Find synchronicities in 500 BCE');
+                                }}
+                            >
+                                ✨ Find Patterns
+                            </div>
+                            <div 
+                                className="chat-option"
+                                onClick={() => {
+                                    setChatMessages([]);
+                                }}
+                            >
+                                🗑️ Clear
+                            </div>
+                        </div>
+                        
+                        {hypothesisMode && (
+                            <div className="hypothesis-mode">
+                                HYPOTHESIS TESTING
+                            </div>
+                        )}
+                    </div>
+                </div>
+            );
+        }
+
+        // This function is now defined inside ChronoSphereApp
+        
+        // Format markdown-like content
+        function formatMarkdown(text) {
+            if (!text) return '';
+            return text
+                .replace(/## (.*?)\n/g, '<h2>$1</h2>')
+                .replace(/### (.*?)\n/g, '<h3>$1</h3>')
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/\n- /g, '<br>• ')
+                .replace(/\n\n/g, '<br><br>')
+                .replace(/\n/g, '<br>');
+        }
+
+        // Render the app
+        ReactDOM.render(<ChronoSphereApp />, document.getElementById('root'));
+    </script>
+</body>
+</html>
